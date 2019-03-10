@@ -6,6 +6,10 @@
   background-color: yellow;
 }
 
+#header .wrapper{
+    display: flex;
+}
+
 #main {
   display: flex;
   position: absolute;
