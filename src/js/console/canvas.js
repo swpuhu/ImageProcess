@@ -164,13 +164,22 @@ export default function (canvas, isGray = true) {
     async function updateHistogram(hisCanvas, data, fn, type = 'gray') {
         let res = await fn();
         putImageData(canvas ,res);
-        if (type === 'gray') {
-            let histogramData = new Array(res.data.length / 4);
+        
+        let histogramData = new Array(res.data.length / 4);
+        if (type === 'gray' || type === 'r') {
             for (let i = 0, j = 0; i < res.data.length; i += 4) {
                 histogramData[j++] = res.data[i];
             }
-            drawSingleHistogram(histogramData, hisCanvas, type);
-        }
+        } else if (type === 'g') {
+            for (let i = 0, j = 0; i < res.data.length; i += 4) {
+                histogramData[j++] = res.data[i + 1];
+            }
+        } else if (type === 'b') {
+            for (let i = 0, j = 0; i < res.data.length; i += 4) {
+                histogramData[j++] = res.data[i + 2];
+            }
+        
+        drawSingleHistogram(histogramData, hisCanvas, type);
     }
     return {
         draw,

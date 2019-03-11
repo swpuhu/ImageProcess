@@ -76,5 +76,12 @@ util.appendChildren(processZone, btnGroups);
 
 gamaProcessBtn.onclick = function (e) {
     let data = originDrawer.getImageData(originCanvas);
-    processDrawer.updateHistogram(processR, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'gray');
+    if (openBtn.isGrayMode) {
+        processDrawer.updateHistogram(processR, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'gray');
+    } else {
+        processDrawer.updateHistogram(processR, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'r');
+        processDrawer.updateHistogram(processG, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'g');
+        processDrawer.updateHistogram(processB, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'b');
+    }
+    
 }

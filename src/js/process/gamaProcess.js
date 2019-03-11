@@ -9,7 +9,7 @@ function gamaProcess(data, coeffecient = 1, exp = 1) {
         let worker = new Worker('/ImageProcess/src/js/worker/gama.js');
         console.log(data);
         worker.onmessage = function (e) {
-            // worker.terminate();
+            worker.terminate();
             console.log(e.data);
             resolve(e.data);
         }
