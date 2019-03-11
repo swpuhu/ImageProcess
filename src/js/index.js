@@ -37,17 +37,44 @@ openBtn.onchange = function (e) {
         originDrawer.draw(image);
         processDrawer.draw(image);
         [originR, originG, originB] = originDrawer.drawHistogram();
+        [processR, processG, processB] = processDrawer.drawHistogram();
+
         util.appendChildren(originZone, originR, originG, originB);
+        util.appendChildren(processZone, processR, processG, processB);
     }
 }
 
 let btnGroups = util.createElement('div', ['btn-group']);
-let gamaProcessBtn = util.createElement('button', ['gama']);
+
+let gama = util.createElement('div', ['gama']);
+let gamaParamC = util.createElement('div', ['gama-c']);
+let gamaParamCInput = util.createElement('input', ['gama-c__input'], {
+    type: 'number',
+    step: 0.1,
+});
+gamaParamCInput.value = 1;
+let gamaParamCLabel = util.createElement('label', ['gama-c__label']);
+gamaParamCLabel.innerText = 'C';
+util.appendChildren(gamaParamC, gamaParamCLabel, gamaParamCInput);
+
+let gamaParamR = util.createElement('div', ['gama-r']);
+let gamaParamRInput = util.createElement('input', ['gama-r__input'], {
+    type: 'number',
+    step: 0.1,
+});
+gamaParamRInput.value = 1;
+let gamaParamRLabel = util.createElement('label', ['gama-r__label']);
+gamaParamRLabel.innerText = 'R';
+util.appendChildren(gamaParamR, gamaParamRLabel, gamaParamRInput);
+
+let gamaProcessBtn = util.createElement('button', ['gama-btn']);
 gamaProcessBtn.innerText = '伽马变换';
-util.appendChildren(btnGroups, gamaProcessBtn);
+util.appendChildren(gama, gamaProcessBtn, gamaParamC, gamaParamR);
+
+util.appendChildren(btnGroups, gama);
 util.appendChildren(processZone, btnGroups);
 
 gamaProcessBtn.onclick = function (e) {
-    let data = processDrawer.getImageData();
-    gamaProcess(data);
+    let data = originDrawer.getImageData(originCanvas);
+    processDrawer.updateHistogram(processR, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'gray');
 }

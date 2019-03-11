@@ -37,3 +37,7 @@
 .canvas-div~canvas {
   width: 33%;
 }
+
+.gama {
+    display: flex;
+}
