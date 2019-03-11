@@ -5,7 +5,6 @@ import util from '../util/util.js';
  * @param {HTMLCanvasElement} canvas
  */
 export default function (canvas, isGray = true) {
-    let ctx = canvas.getContext('2d');
     const width = canvas.width;
     const height = canvas.height;
     let zone = {
@@ -20,6 +19,9 @@ export default function (canvas, isGray = true) {
      * @param {HTMLImageElement} img
      */
     function draw(img) {
+        let ctx = canvas.getContext('2d');
+        canvas.width = 640;
+        canvas.height = 360;
         let direction;
         let originWidth = img.naturalWidth;
         let originHeight = img.naturalHeight;
@@ -33,27 +35,34 @@ export default function (canvas, isGray = true) {
             let offsetY = (height - drawHeight) / 2
             zone.y = offsetY;
             zone.height = drawHeight;
-            ctx.drawImage(img, zone.x, zone.y, zone.width, zone.height);
+            canvas.height = drawHeight;
+            // ctx.drawImage(img, zone.x, zone.y, zone.width, zone.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         } else {
             let drawWidth = height * imgScale;
             let offsetX = (width - drawWidth) / 2;
             zone.x = offsetX;
             zone.width = drawWidth;
-            ctx.drawImage(img, zone.x, zone.y, zone.width, zone.height);
+            canvas.width = drawWidth;
+            // ctx.drawImage(img, zone.x, zone.y, zone.width, zone.height);
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         }
         if (isGray) {
-            let data = ctx.getImageData(zone.x, zone.y, zone.width, zone.height);
+            // let data = ctx.getImageData(zone.x, zone.y, zone.width, zone.height);
+            let data = ctx.getImageData(0, 0, canvas.width, canvas.height);
             for (let i = 0; i < data.data.length; i += 4) {
                 let m = ~~((data.data[i] + data.data[i + 1] + data.data[i + 2]) / 3);
                 data.data[i] = data.data[i + 1] = data.data[i + 2] = m;
             }
-            ctx.putImageData(data, zone.x, zone.y);
+            // ctx.putImageData(data, zone.x, zone.y);
+            ctx.putImageData(data, 0, 0);
         }
     }
 
     function getImageData(canvas) {
         let _ctx = canvas.getContext('2d');
-        return _ctx.getImageData(zone.x, zone.y, zone.width, zone.height);
+        // return _ctx.getImageData(zone.x, zone.y, zone.width, zone.height);
+        return _ctx.getImageData(0, 0, canvas.width, canvas.height);
     }
 
     /**
@@ -63,12 +72,14 @@ export default function (canvas, isGray = true) {
     function putImageData(canvas, imageData) {
         let _ctx = canvas.getContext('2d');
         _ctx.clearRect(0, 0, canvas.width, canvas.height);
-        _ctx.putImageData(imageData, zone.x, zone.y);
+        _ctx.putImageData(imageData, 0, 0);
     }
 
 
     function drawHistogram() {
-        let imageData = ctx.getImageData(zone.x, zone.y, zone.width, zone.height);
+        let ctx = canvas.getContext('2d');
+        // let imageData = ctx.getImageData(zone.x, zone.y, zone.width, zone.height);
+        let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
         let canvasR = util.createElement('canvas', 'histogram-r');
         let canvasG = util.createElement('canvas', 'histogram-g');
         let canvasB = util.createElement('canvas', 'histogram-b');
@@ -178,7 +189,7 @@ export default function (canvas, isGray = true) {
             for (let i = 0, j = 0; i < res.data.length; i += 4) {
                 histogramData[j++] = res.data[i + 2];
             }
-        
+        }
         drawSingleHistogram(histogramData, hisCanvas, type);
     }
     return {

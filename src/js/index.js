@@ -30,6 +30,11 @@ openBtn.onchange = function (e) {
     originR && originR.remove();
     originG && originG.remove();
     originB && originB.remove();
+
+    processR && processR.remove();
+    processG && processG.remove();
+    processB && processB.remove();
+    
     let url = URL.createObjectURL(file);
     let image = new Image();
     image.src = url;
