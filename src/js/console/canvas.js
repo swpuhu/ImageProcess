@@ -175,7 +175,7 @@ export default function (canvas, isGray = true) {
     async function updateHistogram(hisCanvas, data, fn, type = 'gray') {
         let res = await fn();
         putImageData(canvas ,res);
-        
+
         let histogramData = new Array(res.data.length / 4);
         if (type === 'gray' || type === 'r') {
             for (let i = 0, j = 0; i < res.data.length; i += 4) {

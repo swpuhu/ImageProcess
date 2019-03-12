@@ -2,6 +2,7 @@ import menu from './menu/menu.js'
 import Drawer from './console/canvas.js';
 import util from './util/util.js';
 import gamaProcess from './process/gamaProcess.js';
+import balanceProcess from './process/histogramBalanceProcess.js';
 
 let header = document.getElementById('header');
 let openBtn = menu();
@@ -34,7 +35,7 @@ openBtn.onchange = function (e) {
     processR && processR.remove();
     processG && processG.remove();
     processB && processB.remove();
-    
+
     let url = URL.createObjectURL(file);
     let image = new Image();
     image.src = url;
@@ -76,7 +77,13 @@ let gamaProcessBtn = util.createElement('button', ['gama-btn']);
 gamaProcessBtn.innerText = '伽马变换';
 util.appendChildren(gama, gamaProcessBtn, gamaParamC, gamaParamR);
 
-util.appendChildren(btnGroups, gama);
+
+let histogramBalance = util.createElement('div', ['histogram-balance']);
+let histogramBalanceBtn = util.createElement('button', ['hist-balance__btn']);
+histogramBalanceBtn.innerText = '直方图均衡';
+util.appendChildren(histogramBalance, histogramBalanceBtn);
+
+util.appendChildren(btnGroups, gama, histogramBalance);
 util.appendChildren(processZone, btnGroups);
 
 gamaProcessBtn.onclick = function (e) {
@@ -88,5 +95,15 @@ gamaProcessBtn.onclick = function (e) {
         processDrawer.updateHistogram(processG, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'g');
         processDrawer.updateHistogram(processB, data, gamaProcess.bind(this, data, +gamaParamCInput.value, +gamaParamRInput.value), 'b');
     }
-    
+}
+
+histogramBalanceBtn.onclick = function (e) {
+    let data = originDrawer.getImageData(originCanvas);
+    if (openBtn.isGrayMode) {
+        processDrawer.updateHistogram(processR, data, balanceProcess.bind(this, data), 'gray');
+    } else {
+        processDrawer.updateHistogram(processR, data, balanceProcess.bind(this, data), 'r');
+        processDrawer.updateHistogram(processG, data, balanceProcess.bind(this, data), 'g');
+        processDrawer.updateHistogram(processB, data, balanceProcess.bind(this, data), 'b');
+    }
 }
