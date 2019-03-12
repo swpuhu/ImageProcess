@@ -20,7 +20,10 @@ onmessage = function (e) {
             ++histogramDataG[imageData.data[i + 1]].value;
             ++histogramDataB[imageData.data[i + 2]].value;
     }
-
+    let accumR = 0,
+        accumG = 0,
+        accumB = 0;
+        
     for (let i = 1; i < histogramDataR.length; i++) {
         if (histogramDataR[i] > maxR) {
             maxR = histogramDataR[i];
@@ -32,15 +35,20 @@ onmessage = function (e) {
             maxB = histogramDataB[i];
         }
 
-        histogramDataR[i].pr =  Math.round(256 * histogramDataR[i].value / (M * N));
-        histogramDataG[i].pr = Math.round(256 * histogramDataG[i].value / (M * N));
-        histogramDataB[i].pr = Math.round(256 * histogramDataB[i].value / (M * N));
+        accumR += histogramDataR[i].value;
+        accumG += histogramDataG[i].value;
+        accumB += histogramDataB[i].value;
+
+        histogramDataR[i].pr = Math.round(256 * accumR / (M * N));
+        histogramDataG[i].pr = Math.round(256 * accumG / (M * N));
+        histogramDataB[i].pr = Math.round(256 * accumB / (M * N));
     }
 
     for (let i = 0; i < imageData.data.length; i += 4) {
-        imageData.data[i] = histogramDataR[imageData.data[i]];
-        imageData.data[i + 1] = histogramDataG[imageData.data[i + 1]];
-        imageData.data[i + 2] = histogramDataB[imageData.data[i + 2]];
+        imageData.data[i] = histogramDataR[imageData.data[i]].pr;
+        imageData.data[i + 1] = histogramDataG[imageData.data[i + 1]].pr;
+        imageData.data[i + 2] = histogramDataB[imageData.data[i + 2]].pr;
     }
+    console.log(imageData);
     postMessage(imageData);
 }
