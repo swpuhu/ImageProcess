@@ -23,7 +23,7 @@ onmessage = function (e) {
     let accumR = 0,
         accumG = 0,
         accumB = 0;
-        
+
     for (let i = 1; i < histogramDataR.length; i++) {
         if (histogramDataR[i] > maxR) {
             maxR = histogramDataR[i];

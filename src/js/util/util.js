@@ -56,6 +56,35 @@ function isHTMLElement(object) {
   return Object.prototype.toString.call(object) === '[object HTMLElement]';
 }
 
+/**
+ *
+ * @param {Array} array
+ * @param {Number} m
+ * @param {Number} n
+ * @param {Number} fm
+ * @param {Number} fn
+ */
+function fillArray(array, m, n, fm, fn) {
+    let M = m + 2 * fm;
+    let N = n + 2 * fn;
+    let arr = new Array(M * N);
+    let k = 0;
+    for (let i = 0; i < M; i++) {
+        for (let j = 0; j < N; j++) {
+            if (i < fm || i >= m + fm) {
+                arr[i * M + j] = 0;
+            } else if (i >= fm) {
+                if (j < fn || j >= n + fn) {
+                    arr[i * M + j] = 0;
+                } else {
+                    arr[i * M + j] = array[k++];
+                }
+            }
+        }
+    }
+    return arr;
+}
+
 export default {
   createElement,
   isArray,
