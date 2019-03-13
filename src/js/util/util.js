@@ -91,5 +91,6 @@ export default {
   isObject,
   isFunction,
   isString,
-  appendChildren
+  appendChildren,
+  fillArray
 }
