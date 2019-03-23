@@ -3,6 +3,7 @@ import Drawer from './console/canvas.js';
 import util from './util/util.js';
 import gamaProcess from './process/gamaProcess.js';
 import balanceProcess from './process/histogramBalanceProcess.js';
+window.util = util;
 
 let header = document.getElementById('header');
 let openBtn = menu();
