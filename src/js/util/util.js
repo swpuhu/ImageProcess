@@ -58,9 +58,9 @@ function isHTMLElement(object) {
 
 /**
  *
- * @param {Array} array
- * @param {Number} m
- * @param {Number} n
+ * @param {Array} array 原图像
+ * @param {Number} m 原图像宽度
+ * @param {Number} n 原图像高度
  * @param {Number} fm 单边增加的列数
  * @param {Number} fn 单边增加的行数
  */
@@ -69,31 +69,37 @@ function fillArray(array, m, n, fm, fn) {
     let N = n + 2 * fn;
     let arr = new Array(M * N);
     let k = 0;
-    for (let i = 0; i < M; i++) {
-        for (let j = 0; j < N; j++) {
-            if (i < fm || i >= m + fm) {
-                arr[i * M + j] = 0;
-            } else if (i >= fm) {
-                if (j < fn || j >= n + fn) {
-                    arr[i * M + j] = 0;
-                } else {
-                    arr[i * M + j] = array[k++];
-                }
+    for (let i = 0; i < N; i++) {
+        for (let j = 0; j < M; j++) {
+            if (i >= fn && i < M + fn &&
+                j >= fm && j < N + fm) {
+                arr[k] = array[i * m + j];
+            } else {
+                arr[k] = 0;
             }
+            ++k;
         }
     }
     return [arr, M, N];
 }
 
+/**
+ *
+ * @param {Array} array 原图像
+ * @param {Number} m 原图像宽度
+ * @param {Number} n 原图像高度
+ * @param {Number} mk 单边需要裁剪的列数
+ * @param {Number} nk 单边需要裁剪的行数
+ */
 function trimArray(array, m, n, fm, fn) {
     let M = m - 2 * fm;
-    let N = n - 2 * fn;
+    let N = n - 2 * fn
     let arr = new Array(M * N);
     let k = 0;
-    for (let i = 0; i < m; i++) {
-        for (let j = 0; j < n; j++) {
-            if (i >= fm && i < M + fm &&
-                j >= fn && j < N + fn) {
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < m; j++) {
+            if (i >= fn && i < M + fn &&
+                j >= fm && j < N + fm) {
                 arr[k++] = array[i * m + j];
             }
         }
@@ -127,10 +133,12 @@ function convolution(kernal, kx, ky, data, ix, iy, co = 1) {
                 let r = ~~(k / ky);
                 temp += kernal[k] * data[(j + c) + (i + r) * N];
             }
-            res.push(temp * co);
+            res.push(~~(temp * co));
         }
     }
-    res = trimArray(res, _m, _n, kx - 2, ky - 2);
+    let dm = ~~((M - m) / 2);
+    let dn = ~~((N - n) / 2);
+    res = trimArray(res, _m, _n, dm, dn);
     return res;
 }
 

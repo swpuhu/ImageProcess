@@ -10,7 +10,6 @@ function gamaProcess(data, coeffecient = 1, exp = 1) {
         console.log(data);
         worker.onmessage = function (e) {
             worker.terminate();
-            console.log(e.data);
             resolve(e.data);
         }
         worker.postMessage({

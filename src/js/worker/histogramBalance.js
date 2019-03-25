@@ -49,6 +49,5 @@ onmessage = function (e) {
         imageData.data[i + 1] = histogramDataG[imageData.data[i + 1]].pr;
         imageData.data[i + 2] = histogramDataB[imageData.data[i + 2]].pr;
     }
-    console.log(imageData);
     postMessage(imageData);
 }

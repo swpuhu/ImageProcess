@@ -3,6 +3,7 @@ import Drawer from './console/canvas.js';
 import util from './util/util.js';
 import gamaProcess from './process/gamaProcess.js';
 import balanceProcess from './process/histogramBalanceProcess.js';
+import smoothProcess from './process/smoothProcess.js';
 window.util = util;
 
 let header = document.getElementById('header');
@@ -84,7 +85,13 @@ let histogramBalanceBtn = util.createElement('button', ['hist-balance__btn']);
 histogramBalanceBtn.innerText = '直方图均衡';
 util.appendChildren(histogramBalance, histogramBalanceBtn);
 
-util.appendChildren(btnGroups, gama, histogramBalance);
+
+let smoothProcessDiv = util.createElement('div', ['smooth-process']);
+let smoothProcessBtn = util.createElement('button', ['smooth-process__btn']);
+smoothProcessBtn.innerText = '平滑处理';
+
+util.appendChildren(smoothProcessDiv, smoothProcessBtn);
+util.appendChildren(btnGroups, gama, histogramBalance, smoothProcessDiv);
 util.appendChildren(processZone, btnGroups);
 
 gamaProcessBtn.onclick = function (e) {
@@ -107,4 +114,17 @@ histogramBalanceBtn.onclick = function (e) {
         processDrawer.updateHistogram(processG, data, balanceProcess.bind(this, data), 'g');
         processDrawer.updateHistogram(processB, data, balanceProcess.bind(this, data), 'b');
     }
+}
+
+
+smoothProcessBtn.onclick = function (e) {
+    let data = originDrawer.getImageData(originCanvas);
+    if (openBtn.isGrayMode) {
+        processDrawer.updateHistogram(processR, data, smoothProcess.bind(this, data), 'gray');
+    } else {
+        processDrawer.updateHistogram(processR, data, smoothProcess.bind(this, data), 'r');
+        processDrawer.updateHistogram(processG, data, smoothProcess.bind(this, data), 'g');
+        processDrawer.updateHistogram(processB, data, smoothProcess.bind(this, data), 'b');
+    }
+
 }
