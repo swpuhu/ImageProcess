@@ -71,13 +71,12 @@ function fillArray(array, m, n, fm, fn) {
     let k = 0;
     for (let i = 0; i < N; i++) {
         for (let j = 0; j < M; j++) {
-            if (i >= fn && i < M + fn &&
-                j >= fm && j < N + fm) {
-                arr[k] = array[i * m + j];
+            if (i >= fn && i < n + fn &&
+                j >= fm && j < m + fm) {
+                arr[i * M + j] = array[k++];
             } else {
-                arr[k] = 0;
+                arr[i * M + j] = 0;
             }
-            ++k;
         }
     }
     return [arr, M, N];
@@ -98,8 +97,8 @@ function trimArray(array, m, n, fm, fn) {
     let k = 0;
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
-            if (i >= fn && i < M + fn &&
-                j >= fm && j < N + fm) {
+            if (i >= fn && i < N + fn &&
+                j >= fm && j < M + fm) {
                 arr[k++] = array[i * m + j];
             }
         }
@@ -131,13 +130,13 @@ function convolution(kernal, kx, ky, data, ix, iy, co = 1) {
             for (let k = 0; k < kx * ky; k++) {
                 let c = k % kx;
                 let r = ~~(k / ky);
-                temp += kernal[k] * data[(j + c) + (i + r) * N];
+                temp += kernal[k] * data[(j + c) + (i + r) * M];
             }
             res.push(~~(temp * co));
         }
     }
-    let dm = ~~((M - m) / 2);
-    let dn = ~~((N - n) / 2);
+    let dm = ~~((M - m) / 4);
+    let dn = ~~((N - n) / 4);
     res = trimArray(res, _m, _n, dm, dn);
     return res;
 }
