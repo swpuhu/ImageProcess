@@ -1,0 +1,16 @@
+.plain-box {
+  position: fixed;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+  width: 300px;
+  height: 300px;
+  border: 1px solid #ccc;
+}
+
+.plain-box .header {
+  padding: 5px 0 5px 5px;
+  background-color: #efa041;
+  border-bottom: 1px solid #ccc;
+  color: #fff;
+  font-weight: bold;
+}

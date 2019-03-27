@@ -4,7 +4,7 @@ export default function (data) {
         let imageData = data;
         let M = imageData.width;
         let N = imageData.height;
-        let kernal = new Array(49);
+        let kernal = new Array(9);
         for (let i = 0; i < kernal.length; i++) {
             kernal[i] = 1;
         }
@@ -14,9 +14,9 @@ export default function (data) {
             g.push(imageData.data[i + 1]);
             b.push(imageData.data[i + 2]);
         }
-        let ar = util.convolution(kernal, 7, 7, r, M, N, 1 / 49);
-        let ag = util.convolution(kernal, 7, 7, g, M, N, 1 / 49);
-        let ab = util.convolution(kernal, 7, 7, b, M, N, 1 / 49);
+        let ar = util.convolution(kernal, 3, 3, r, M, N, 1 / 9);
+        let ag = util.convolution(kernal, 3, 3, g, M, N, 1 / 9);
+        let ab = util.convolution(kernal, 3, 3, b, M, N, 1 / 9);
         for (let i = 0, j = 0; i < imageData.data.length; i += 4) {
             imageData.data[i] = ar[j];
             imageData.data[i + 1] = ag[j];

@@ -4,6 +4,7 @@ import util from './util/util.js';
 import gamaProcess from './process/gamaProcess.js';
 import balanceProcess from './process/histogramBalanceProcess.js';
 import smoothProcess from './process/smoothProcess.js';
+import PlainBox from './components/plainBox.js';
 window.util = util;
 
 let header = document.getElementById('header');
@@ -90,8 +91,15 @@ let smoothProcessDiv = util.createElement('div', ['smooth-process']);
 let smoothProcessBtn = util.createElement('button', ['smooth-process__btn']);
 smoothProcessBtn.innerText = '平滑处理';
 
+
+let convolution = util.createElement('div', ['convolution-process']);
+let convolutionBtn = util.createElement('button', ['convolution-process__btn']);
+convolutionBtn.innerText = '卷积';
+util.appendChildren(convolution, convolutionBtn);
+
+
 util.appendChildren(smoothProcessDiv, smoothProcessBtn);
-util.appendChildren(btnGroups, gama, histogramBalance, smoothProcessDiv);
+util.appendChildren(btnGroups, gama, histogramBalance, smoothProcessDiv, convolution);
 util.appendChildren(processZone, btnGroups);
 
 gamaProcessBtn.onclick = function (e) {
@@ -127,4 +135,10 @@ smoothProcessBtn.onclick = function (e) {
         processDrawer.updateHistogram(processB, data, smoothProcess.bind(this, data), 'b');
     }
 
+}
+
+
+convolutionBtn.onclick = function () {
+    let plainBox = PlainBox('卷积', 'convolution');
+    document.body.appendChild(plainBox.ref);
 }
