@@ -141,6 +141,47 @@ function convolution(kernal, kx, ky, data, ix, iy, co = 1) {
     return res;
 }
 
+/**
+ *
+ * @param {Array} kernal 卷积核
+ * @param {Number} kx 卷积核尺寸x
+ * @param {Number} ky 卷积核尺寸y
+ * @param {ImageData} imageData 原图像
+ */
+function imageDataConvolution(kernal, kx, ky, imageData, co = 1) {
+    let m = imageData.width;
+    let n = imageData.height;
+    let data = imageData.data;
+    let M, N;
+    [data, M, N] = fillArray(data, m * 4, n, 4 * (kx - 1), ky - 1);
+    let _m = 4 * (M - kx + 1);
+    let _n = N - ky + 1;
+    let res = [];
+    for (let i = 0; i < _n; i++) {
+        for (let j = 0; j < _m; j += 4) {
+            let tempR = 0;
+            let tempG = 0;
+            let tempB = 0;
+            let tempAlpha = 1;
+            for (let k = 0; k < kx * ky; k++) {
+                let c = k % kx;
+                let r = ~~(k / ky);
+                tempR += kernal[k] * data[(j + c) + (i + r) * M];
+                tempG += kernal[k] * data[(j + 1 + c) + (i + r) * M];
+                tempB += kernal[k] * data[(j + 2 + c) + (i + r) * M];
+            }
+            res.push(~~(tempR * co));
+            res.push(~~(tempG * co));
+            res.push(~~(tempB * co));
+            res.push(tempAlpha);
+        }
+    }
+    let dm = ~~((M - m) / 4);
+    let dn = ~~((N - n) / 4);
+    res = trimArray(res, _m, _n, dm, dn);
+    return res;
+}
+
 
 export default {
     createElement,
@@ -151,5 +192,6 @@ export default {
     appendChildren,
     fillArray,
     trimArray,
-    convolution
+    convolution,
+    imageDataConvolution
 }

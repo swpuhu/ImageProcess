@@ -5,6 +5,7 @@
   width: 300px;
   height: 300px;
   border: 1px solid #ccc;
+  background-color: #fff0dd;
 }
 
 .plain-box .header {
@@ -13,4 +14,62 @@
   border-bottom: 1px solid #ccc;
   color: #fff;
   font-weight: bold;
+  cursor: move;
+}
+
+.plain-box .body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 27px;
+  bottom: 45px;
+}
+
+.plain-box .footer {
+  position: absolute;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  bottom: 0;
+  padding: 10px 0;
+  border-top: 1px solid #ccc;
+}
+
+.plain-box .footer button {
+  width: 30%;
+  -webkit-appearance: none;
+  background-color: #efa041;
+  border: none;
+  color: #fff;
+  padding: 2px 0;
+}
+
+.plain-box .footer button:hover {
+  background-color: #de7a00;
+  cursor: pointer;
+}
+
+.matrix {
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.matrix .matrix-unit {
+  float: left;
+  width: 30%;
+  height: 30%;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 25px 32px;
+  box-sizing: border-box;
+}
+
+.matrix .matrix-unit.first-col {
+  border-left: 1px solid #ccc;
+}
+
+.matrix .matrix-unit.first-row {
+  border-top: 1px solid #ccc;
 }

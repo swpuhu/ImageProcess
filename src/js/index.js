@@ -5,7 +5,19 @@ import gamaProcess from './process/gamaProcess.js';
 import balanceProcess from './process/histogramBalanceProcess.js';
 import smoothProcess from './process/smoothProcess.js';
 import PlainBox from './components/plainBox.js';
+import Matrix from './components/matrix.js';
 window.util = util;
+
+
+/**
+ * @description init
+ */
+(function () {
+    document.onselectstart = function () {
+        return false;
+    }
+}());
+
 
 let header = document.getElementById('header');
 let openBtn = menu();
@@ -139,6 +151,15 @@ smoothProcessBtn.onclick = function (e) {
 
 
 convolutionBtn.onclick = function () {
-    let plainBox = PlainBox('卷积', 'convolution');
+    let confirmCallback = function () {
+
+    };
+
+    let cancelCallback = function () {
+
+    }
+    let plainBox = PlainBox('卷积', 'convolution', null, confirmCallback, cancelCallback);
+    let matrix = Matrix(3);
+    plainBox.appendChildren(matrix.ref);
     document.body.appendChild(plainBox.ref);
 }
