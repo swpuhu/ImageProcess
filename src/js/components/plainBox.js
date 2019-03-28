@@ -68,14 +68,14 @@ export default function(title, className, elements, confirmCallback, cancelCallb
         if (confirmBtn) {
             util.appendChildren(footer, confirmBtn);
             confirmBtn.addEventListener('click', function(e) {
-                confirmCallback.call(obj);
+                confirmCallback.apply(obj, arguments);
                 remove();
             });
         }
         if (cancelBtn) {
             util.appendChildren(footer, cancelBtn);
             cancelBtn.addEventListener('click', function() {
-                cancelCallback.call(obj);
+                cancelCallback.apply(obj, arguments);
                 remove();
             })
         }

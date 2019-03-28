@@ -183,6 +183,17 @@ function imageDataConvolution(kernal, kx, ky, imageData, co = 1) {
 }
 
 
+function getSingle (fn) {
+    let ret;
+    return function () {
+        if (ret) {
+            return ret;
+        } else {
+            return ret = fn.apply(this, arguments);
+        }
+    }
+}
+
 export default {
     createElement,
     isArray,
@@ -193,5 +204,6 @@ export default {
     fillArray,
     trimArray,
     convolution,
-    imageDataConvolution
+    imageDataConvolution,
+    getSingle
 }

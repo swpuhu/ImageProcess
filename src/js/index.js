@@ -4,8 +4,7 @@ import util from './util/util.js';
 import gamaProcess from './process/gamaProcess.js';
 import balanceProcess from './process/histogramBalanceProcess.js';
 import smoothProcess from './process/smoothProcess.js';
-import PlainBox from './components/plainBox.js';
-import Matrix from './components/matrix.js';
+import Convolution from './composite/convolution.js';
 window.util = util;
 
 
@@ -29,6 +28,10 @@ let processR, processG, processB;
 let processZone = document.getElementById('processed');
 let originZone = document.getElementById('origin');
 let originDrawer, processDrawer;
+let createSingleConvolution = util.getSingle(Convolution);
+
+
+
 
 openBtn.onchange = function (e) {
     let file = e.path[0].files[0];
@@ -151,15 +154,6 @@ smoothProcessBtn.onclick = function (e) {
 
 
 convolutionBtn.onclick = function () {
-    let confirmCallback = function () {
-
-    };
-
-    let cancelCallback = function () {
-
-    }
-    let plainBox = PlainBox('卷积', 'convolution', null, confirmCallback, cancelCallback);
-    let matrix = Matrix(3);
-    plainBox.appendChildren(matrix.ref);
-    document.body.appendChild(plainBox.ref);
+    let convolution = createSingleConvolution(originDrawer, processDrawer,openBtn.isGrayMode, processR, processG, processB);
+    document.body.appendChild(convolution.ref);
 }

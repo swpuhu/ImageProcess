@@ -4,7 +4,7 @@ import util from '../util/util.js';
  * @description 卷积核输入界面
  * @author Oliver
  * @param {Number} n 卷积核的大小
- * @returns {{value: value, ref: ref, remove: remove, update: update}}
+ * @returns {{value: value, ref: ref, remove: remove, update: update, x: x, y: y}}
  */
 export default function (n) {
     let obj = {};
@@ -33,11 +33,16 @@ export default function (n) {
         if (i / n < 1) {
             unit.classList.add('first-row');
         }
-        util.appendChildren(doc, unit);
-    }
 
-    doc.onkeydown = function (e) {
-        // TODO: 事件委托 校验输入字符
+        Object.defineProperty(unit, 'value', {
+            get () {
+                return +input.value;
+            },
+            set (value) {
+                input.value = value;
+            }
+        });
+        util.appendChildren(doc, unit);
     }
 
 
@@ -77,7 +82,7 @@ export default function (n) {
             get () {
                 let arr = [];
                 for (let u of units) {
-                    arr.push(+u.innerText);
+                    arr.push(+u.value);
                 }
                 return arr;
             },
@@ -85,7 +90,7 @@ export default function (n) {
                 if (util.isArray(value)) {
                     if (value.length === units.length) {
                         for (let i = 0; i < units.length; ++i) {
-                            units[i].innerText = value[i];
+                            units[i].value = value[i];
                         }
                     }
                 } else {
@@ -103,6 +108,16 @@ export default function (n) {
         },
         update: {
             value: update
+        },
+        x: {
+            get () {
+                return n;
+            }
+        },
+        y: {
+            get () {
+                return n;
+            }
         }
     });
 
