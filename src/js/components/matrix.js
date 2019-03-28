@@ -23,7 +23,9 @@ export default function (n) {
     }
     for (let i = 0; i < n * n; ++i) {
         let unit = util.createElement('div', ['matrix-unit']);
-        unit.contentEditable = true;
+        let input = util.createElement('input', ['unit-input']);
+        input.type = 'number';
+        util.appendChildren(unit, input);
         units.push(unit);
         if (i % n === 0) {
             unit.classList.add('first-col');
