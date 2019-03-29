@@ -154,6 +154,6 @@ smoothProcessBtn.onclick = function (e) {
 
 
 convolutionBtn.onclick = function () {
-    let convolution = createSingleConvolution(originDrawer, processDrawer,openBtn.isGrayMode, processR, processG, processB);
+    let convolution = Convolution(originDrawer, processDrawer, openBtn.isGrayMode, processR, processG, processB);
     document.body.appendChild(convolution.ref);
 }
